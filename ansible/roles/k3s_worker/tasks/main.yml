@@ -1,0 +1,23 @@
+---
+- name: Install dependencies
+  apt:
+    name:
+      - curl
+      - ca-certificates
+    update_cache: true
+
+- name: Install k3s worker node
+  shell: curl -sfL https://get.k3s.io | sh -s - {{ k3s_agent_extra_args }}
+  environment:
+    K3S_URL: "{{ k3s_server_url }}"
+    K3S_TOKEN: "{{ k3s_token }}"
+    K3S_VERSION: "{{ k3s_version }}"
+  args:
+    creates: /etc/systemd/system/k3s-agent.service
+
+
+- name: Ensure k3s-agent service is running
+  systemd:
+    name: k3s-agent
+    state: started
+    enabled: true

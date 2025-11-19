@@ -1,0 +1,6 @@
+k3s_version: "latest"
+
+k3s_server_url: "https://172.17.0.65:6443"
+k3s_token: "K1016a5a991c1cbf2d6b5374f2ef50ea0fdfb291ec7ff404d83c99d6342191f160b::server:9cdec31bd6d402b8b123dfdc7d0bdc50"
+   
+k3s_agent_extra_args: "--node-external-ip 172.17.0.78 --node-label role=workeR  --with-node-id worker1"

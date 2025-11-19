@@ -1,0 +1,46 @@
+---
+- name: Install dependencies
+  apt:
+    name:
+      - curl
+      - ca-certificates
+    update_cache: true
+
+- name: Install k3s server
+  shell: >
+    curl -sfL https://get.k3s.io |
+    INSTALL_K3S_EXEC="server {{ '--disable traefik' if k3s_disable_traefik else '' }}
+    {{ k3s_extra_server_args }}"
+    K3S_VERSION="{{ k3s_version }}"
+    sh -
+  args:
+    creates: /etc/systemd/system/k3s.service
+
+- name: Ensure k3s service is running
+  systemd:
+    name: k3s
+    state: started
+    enabled: true
+
+- name: Fetch kubeconfig for local usage
+  fetch:
+    src: /etc/rancher/k3s/k3s.yaml
+    dest: "~/.kube/config"
+    flat: true
+
+- name: Replace 127.0.0.1 with server IP in kubeconfig
+  delegate_to: localhost
+  replace:
+    path: "/home/noahr/.kube/config"
+    regexp: "127.0.0.1"
+    replace: "{{ ansible_host }}"
+
+- name: Get k3s token
+  command: cat /var/lib/rancher/k3s/server/node-token
+  register: k3stoken
+
+- name: Print file contents to terminal
+  debug:
+    msg: "{{ k3stoken.stdout }}"
+# - include_tasks: manifests.yml
+#   tags: manifests
