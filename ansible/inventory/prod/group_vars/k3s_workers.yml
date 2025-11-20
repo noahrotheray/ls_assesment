@@ -2,6 +2,6 @@ k3s_version: "latest"
 
 k3s_server_url: "https://{{ hostvars['server1'].ansible_host }}:6443"
 ## TODO Add to ansible_vault file
-k3s_token: "K101d616ba1a0dbe659a7ca43f1aaad69a8fe8db8adff2fa249b65f40584a32de5e::server:4183672f8ce194fdf1a0172fe7e57432"
+k3s_token: "K102dbeeb4cecaeca386b7820ac15a5038eae8e3f6354153405880ef04f5e0a7c86::server:44b5a6e7f3222e7375c81210c68b8356"
    
 k3s_agent_extra_args: "--node-external-ip {{ ansible_host }} --node-label role=worker  --with-node-id {{ ansible_host }}"

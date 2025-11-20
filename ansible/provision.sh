@@ -6,29 +6,22 @@ set -euo pipefail
 # ================================
 # This script will:
 # 1. Run Ansible to provision server1
-# 2. Remind you to capture the k3s token
-# 3. Install ingress-nginx
-# 4. Wait for nginx-admission webhook to be ready
-# 5. Apply orchestration manifests
+# 2. Install ingress-nginx
+# 3. Wait for nginx-admission webhook to be ready
+# 4. Apply orchestration manifests
 
 INVENTORY="inventory/prod"
 PLAYBOOK="site.yml"
-if [ $# -ne 1 ]; then
-  echo "Usage: $0 <ansible-limit>"
-  echo "Example: $0 server1"
-  exit 1
-fi
-
-LIMIT="$1"
+LIMIT="server1"
 
 INGRESS_URL="https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.1.2/deploy/static/provider/cloud/deploy.yaml"
-APP_MANIFEST="../k3s/app.yaml"
+MANIFEST="../k3s/app.yaml"
 
 log() {
   echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1"
 }
 
-# 1. Provision server with Ansible
+# 1. Provision server
 log "Running Ansible playbook for ${LIMIT}..."
 ansible-playbook -i "${INVENTORY}" "${PLAYBOOK}" --limit "${LIMIT}"
 
@@ -48,14 +41,14 @@ EOF
 log "Installing ingress-nginx..."
 kubectl apply -f "${INGRESS_URL}"
 
-# 3. Wait for nginx-admission to become ready
-log "Waiting for nginx-admission webhook to be ready..."
-TIMEOUT=90
-INTERVAL=5
+# 3. Wait for nginx controller to become ready
+log "Waiting for nginx controller to be ready..."
+TIMEOUT=120
+INTERVAL=15
 ELAPSED=0
 
-until kubectl get pods -n ingress-nginx 2>/dev/null | grep -q "nginx-admission" && \
-      kubectl get pods -n ingress-nginx | grep nginx-admission | grep -q "Running"; do
+until kubectl get pods -n ingress-nginx 2>/dev/null | grep -q "ingress-nginx-controller" && \
+      kubectl get pods -n ingress-nginx | grep ingress-nginx-controller | grep -q "Running"; do
   sleep ${INTERVAL}
   ELAPSED=$((ELAPSED + INTERVAL))
 
@@ -65,10 +58,12 @@ until kubectl get pods -n ingress-nginx 2>/dev/null | grep -q "nginx-admission" 
   fi
 
 done
+log "Make sure nginx is running..." # Even though the pod is 'Running', its not accepting new ingresses yet.
+sleep 10
 
-# 4. Apply orchestration manifests
+# 4. Apply manifests.
 log "Applying orchestration manifests..."
-kubectl apply -f "${APP_MANIFEST}"
-
+kubectl apply -f "${MANIFEST}"
+log "Give it a second..." # nginx reloads after config changes
+sleep 10
 log "Provisioning complete ✅"
-nohup xdg-open http://localhost
