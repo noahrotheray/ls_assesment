@@ -45,7 +45,7 @@ Ansible for provisioning
   ```
   bash ansible/provision.sh server1
   ```
-  WebApp should now be listening on: http://<server1 IP>
+  WebApp should now be listening on: http://server_ip
 
 ### Optional: Provision worker node
 - set `k3s_token` in  `ansible/inventory/prod/group_vars/k3s_workers.yml`
