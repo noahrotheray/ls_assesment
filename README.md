@@ -65,9 +65,11 @@ Ansible for provisioning
 - ArgoCD to manage manifests
 - Get k3s_token automatically (no manual steps for worker nodes)
 - Terraform to provision the VMs maybe?
-- Add rate limiting on nginx
 - Add taints/tolerations to put nginx on its own node pool
 - Use ansible vault for secrets
+- HTTPS + TLS headers for nginx incl set ciphers
+- CSP Headers
+- fix rate limit status code
 - variable management needs improving
 - Add network policy to allow ingress to only send to nginx
 - Add podsecurity policy to harden pod permissions
