@@ -65,3 +65,4 @@ TODO:
 - Terraform instead of ansible maybe?
 - Add rate limiting on nginx
 - Add taints to put nginx on its own node pool
+- Use ansible vault for secrets
