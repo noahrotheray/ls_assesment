@@ -18,7 +18,7 @@ Ansible for provisioning
 
 ## What you need to change
 - Adjust the ssh user and auth according to your environment in `ansible/inventory/prod/group_vars/all.yml`. Ansible requires this to ssh to each node and perform the provisioning tasks. In this setup it is assumed both server and worker nodes share the same ssh user and keys.
-- If you are not running the stack on localhost, or you intend to add worker nodes, set the LAN IP of k3s server (and worker(s)) in `ansible/inventory/prod/hosts.yml`
+- If you are not running the stack on localhost, or you **intend to add worker nodes**, set the **LAN IP** of k3s server/worker in `ansible/inventory/prod/hosts.yml`. 
 
 ## Provisioning
 
@@ -46,7 +46,6 @@ Ansible for provisioning
   Wepapp is listening on http://localhost
 
 ### Optional: Provision worker node
-- Set the worker IPs in `ansible/inventory/prod/hosts.yml`
 - set `k3s_token` in  `ansible/inventory/prod/group_vars/k3s_workers.yml`
 - Run the playbook
  ```
