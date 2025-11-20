@@ -19,7 +19,7 @@ Ansible for provisioning
 `ansible` - [Install Ansible](https://docs.ansible.com/projects/ansible/latest/installation_guide/installation_distros.html)
 
 ## What you need to change
-- Adjust the ssh user and auth according to your environment in `ansible/inventory/prod/group_vars/all.yml`. Ansible requires this to ssh to each node and perform the provisioning tasks. In this setup it is assumed both server and worker nodes share the same ssh user and keys.
+- Adjust the ssh user and auth according to your environment in `ansible/inventory/prod/group_vars/all.yml`. In this setup it is assumed both server and worker nodes share the same ssh user and keys.
 - Set the **LAN IP** of k3s server/worker(s) in `ansible/inventory/prod/hosts.yml`. 
 
 ## Provisioning
@@ -66,6 +66,8 @@ Ansible for provisioning
 - Get k3s_token automatically (no manual steps for worker nodes)
 - Terraform to provision the VMs maybe?
 - Add rate limiting on nginx
-- Add taints to put nginx on its own node pool
+- Add taints/tolerations to put nginx on its own node pool
 - Use ansible vault for secrets
 - variable management needs improving
+- Add network policy to allow ingress to only send to nginx
+- Add podsecurity policy to harden pod permissions
