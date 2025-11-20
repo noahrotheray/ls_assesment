@@ -1,5 +1,6 @@
 ---
 - name: Install dependencies
+  become: true
   apt:
     name:
       - curl
@@ -22,7 +23,8 @@
     state: started
     enabled: true
 
-- name: Fetch kubeconfig for local usage
+- name: Fetch kubeconfig for local use
+  become: true
   fetch:
     src: /etc/rancher/k3s/k3s.yaml
     dest: "~/.kube/config"
@@ -31,16 +33,15 @@
 - name: Replace 127.0.0.1 with server IP in kubeconfig
   delegate_to: localhost
   replace:
-    path: "/home/noahr/.kube/config"
+    path: "~/.kube/config"
     regexp: "127.0.0.1"
     replace: "{{ ansible_host }}"
 
 - name: Get k3s token
+  become: true
   command: cat /var/lib/rancher/k3s/server/node-token
   register: k3stoken
 
-- name: Print file contents to terminal
+- name: Print k3s token
   debug:
     msg: "{{ k3stoken.stdout }}"
-# - include_tasks: manifests.yml
-#   tags: manifests

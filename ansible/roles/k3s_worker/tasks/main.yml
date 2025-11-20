@@ -1,5 +1,6 @@
 ---
 - name: Install dependencies
+  become: true
   apt:
     name:
       - curl
@@ -17,6 +18,7 @@
 
 
 - name: Ensure k3s-agent service is running
+  become: true
   systemd:
     name: k3s-agent
     state: started
