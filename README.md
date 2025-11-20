@@ -28,12 +28,19 @@ Provision stack
 
 - Docker image has been built and pushed to sporn/ls_assesment:latest
 - Provision k3s server
+
   `ansible-playbook -i ansible/inventory/prod site.yml --limit server1`
+  
   Note: Take note of the k3s_token, this is required for worker nodes.
+  
 - install ingress-nginx
+
   `kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.1.2/deploy/static/provider/cloud/deploy.yaml`
+  
 - Wait around 90s for nginx-admission to come up.
+
 - Apply orchestration manifests
+  
   `kubectl apply -f k3s/app.yaml`
 
 Optional: Provision worker node
