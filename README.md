@@ -43,7 +43,7 @@ Ansible for provisioning
 ### TLDR:
 
   ```
-  bash ansible/provision.sh server1
+  bash ansible/provision.sh
   ```
   WebApp should now be listening on: http://server_ip
 
