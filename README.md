@@ -16,10 +16,11 @@ ansible for provisioning
 
 What you need to run this stack
 
-kubectl
-ansible
+`kubectl`
+`ansible`
 
 What you need to change
+
 - Add the IPs the k3s server and worker(optional) hosts in  `ls_assesment/ansible/inventory/prod/hosts.yml`
 - Adjust the ssh user and auth according to your environment.
 
@@ -36,7 +37,7 @@ Provision stack
   `kubectl apply -f k3s/app.yaml`
 
 Optional: Provision worker node
-- set `k3s_token` to server1's token, 
+- set `k3s_token` to server1's token in hosts.yml 
  `ansible-playbook -i inventory/prod site.yml --limit worker1`
 
 
