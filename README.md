@@ -4,7 +4,7 @@
 
 2 Debian PRX VM's 
 
-Docker image built and pushed to repo.
+node-app Docker image built and pushed to repo.
 
 K3s for orchestration
 
@@ -34,7 +34,7 @@ Ansible for provisioning
   ```
   kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.1.2/deploy/static/provider/cloud/deploy.yaml
   ```
- - Wait around 120s for nginx controller to come up.
+- Wait around 120s for nginx controller to come up.
 
 - Apply orchestration manifests
   ```
