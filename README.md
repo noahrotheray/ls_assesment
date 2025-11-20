@@ -26,7 +26,7 @@ Ansible for provisioning
 
 - Provision k3s server
   ```
-  ansible-playbook -i ansible/inventory/prod site.yml --limit server1
+  ansible-playbook -i inventory/prod site.yml --limit server1
   ```
   _Note: Take note of the k3s_token, this is required for worker nodes._
   
@@ -38,7 +38,7 @@ Ansible for provisioning
 
 - Apply orchestration manifests
   ```
-  kubectl apply -f k3s/app.yaml
+  kubectl apply -f ../k3s/app.yaml
   ```
 ### TLDR:
 
