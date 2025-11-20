@@ -57,7 +57,7 @@ Ansible for provisioning
  worker - `sudo /usr/local/bin/k3s-agent-uninstall.sh`
 
 
-TODO:
+### TODO:
 - Add provision script for workers
 - Add process to build and push image
 - ArgoCD to manage manifests
@@ -66,3 +66,4 @@ TODO:
 - Add rate limiting on nginx
 - Add taints to put nginx on its own node pool
 - Use ansible vault for secrets
+- variable management needs improving
