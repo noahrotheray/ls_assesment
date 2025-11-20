@@ -3,10 +3,15 @@
 ### Stack:
 
 I used my proxmox lab to run this stack.
+
 Docker image has been built and pushed to sporn/ls_assesment:latest
+
 2 Debian VM's - server1 and worker1
+
 k3s for orchestration
+
 ingress-nginx as proxy/LB
+
 ansible for provisioning
 
 What you need to run this stack
