@@ -27,13 +27,13 @@
   become: true
   fetch:
     src: /etc/rancher/k3s/k3s.yaml
-    dest: "~/.kube/config"
+    dest: "k3s_config"
     flat: true
 
 - name: Replace 127.0.0.1 with server IP in kubeconfig
   delegate_to: localhost
   replace:
-    path: "~/.kube/config"
+    path: "k3s_config"
     regexp: "127.0.0.1"
     replace: "{{ ansible_host }}"
 

@@ -19,7 +19,7 @@ Ansible for provisioning
 `ansible` - [Install Ansible](https://docs.ansible.com/projects/ansible/latest/installation_guide/installation_distros.html)
 
 ## What you need to change
-- Adjust the ssh user and auth according to your environment in `ansible/inventory/prod/group_vars/all.yml`. In this setup it is assumed both server and worker nodes share the same ssh user and keys.
+- Adjust the ssh user and auth according to your environment in `ansible/inventory/prod/group_vars/all.yml`. In this setup it is assumed both server and worker nodes share the same ssh user and keys, and that the user has root privileges on the host machine.
 - Set the **LAN IP** of k3s server/worker(s) in `ansible/inventory/prod/hosts.yml`. 
 
 ## Provisioning
@@ -43,7 +43,8 @@ Ansible for provisioning
 ### TLDR:
 
   ```
-  bash ansible/provision.sh
+  cd ansible
+  bash provision.sh
   ```
   WebApp should now be listening on: http://server_ip
 
