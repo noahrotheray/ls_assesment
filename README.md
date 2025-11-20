@@ -2,6 +2,8 @@
 
 ### Stack:
 
+2 Debian PRX VM's 
+
 Docker image built and pushed to repo.
 
 K3s for orchestration
@@ -18,7 +20,7 @@ Ansible for provisioning
 
 ## What you need to change
 - Adjust the ssh user and auth according to your environment in `ansible/inventory/prod/group_vars/all.yml`. Ansible requires this to ssh to each node and perform the provisioning tasks. In this setup it is assumed both server and worker nodes share the same ssh user and keys.
-- If you are not running the stack on localhost, or you **intend to add worker nodes**, set the **LAN IP** of k3s server/worker in `ansible/inventory/prod/hosts.yml`. 
+- Set the **LAN IP** of k3s server/worker(s) in `ansible/inventory/prod/hosts.yml`. 
 
 ## Provisioning
 
@@ -32,7 +34,7 @@ Ansible for provisioning
   ```
   kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.1.2/deploy/static/provider/cloud/deploy.yaml
   ```
-- Wait around 120s for nginx-admission to come up.
+ - Wait around 120s for nginx controller to come up.
 
 - Apply orchestration manifests
   ```
@@ -62,7 +64,7 @@ Ansible for provisioning
 - Add process to build and push image
 - ArgoCD to manage manifests
 - Get k3s_token automatically (no manual steps for worker nodes)
-- Terraform instead of ansible maybe?
+- Terraform to provision the VMs maybe?
 - Add rate limiting on nginx
 - Add taints to put nginx on its own node pool
 - Use ansible vault for secrets
