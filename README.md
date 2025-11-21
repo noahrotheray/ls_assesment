@@ -12,7 +12,7 @@ Ingress-nginx as proxy/LB
 
 Ansible for provisioning
 
-## Dependancies:
+## Dependancies
 
 `kubectl` - [Install Kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/)
 
@@ -40,7 +40,7 @@ Ansible for provisioning
   ```
   kubectl apply -f k3s/app.yaml --kubeconfig=ansible/k3s_config
   ```
-### TLDR:
+### TLDR
 
   ```
   bash ansible/provision.sh
@@ -59,13 +59,13 @@ Ansible for provisioning
   ```
   New replicas should now provision on worker nodes.
 
-### Cleanup:
+### Cleanup
 server - `sudo /usr/local/bin/k3s-uninstall.sh`
  
 worker - `sudo /usr/local/bin/k3s-agent-uninstall.sh`
 
 
-### TODO:
+### TODO
 - Add provision script for workers
 - Add process to build and push image
 - ArgoCD to manage manifests
