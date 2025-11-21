@@ -39,7 +39,6 @@ Ansible for provisioning
 - Apply orchestration manifests
   ```
   kubectl apply -f k3s/app.yaml --kubeconfig=ansible/k3s_config
-
   ```
 ### TLDR:
 
