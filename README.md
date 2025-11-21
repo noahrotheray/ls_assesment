@@ -51,19 +51,19 @@ Ansible for provisioning
 ### Optional: Provision worker node
 - set `k3s_token` in  `ansible/inventory/prod/group_vars/k3s_workers.yml`
 - Run the playbook
- ```
- ansible-playbook -i inventory/prod site.yml --limit worker1
- ```
+  ```
+  ansible-playbook -i inventory/prod site.yml --limit worker1
+  ```
 - Scale `node-app` deployment
   ```
   kubectl scale deployment node-app --replicas 6 --kubeconfig=ansible/k3s_config
   ```
   New replicas should now provision on worker nodes.
 
- ### Cleanup:
- server - `sudo /usr/local/bin/k3s-uninstall.sh`
+### Cleanup:
+server - `sudo /usr/local/bin/k3s-uninstall.sh`
  
- worker - `sudo /usr/local/bin/k3s-agent-uninstall.sh`
+worker - `sudo /usr/local/bin/k3s-agent-uninstall.sh`
 
 
 ### TODO:
