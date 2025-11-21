@@ -7,16 +7,16 @@ set -euo pipefail
 # This script will:
 # 1. Run Ansible to provision server1
 # 2. Install ingress-nginx
-# 3. Wait for nginx-admission webhook to be ready
+# 3. Wait for nginx controller receive ingress conf
 # 4. Apply orchestration manifests
 
-INVENTORY="inventory/prod"
-PLAYBOOK="site.yml"
+INVENTORY="ansible/inventory/prod"
+PLAYBOOK="ansible/site.yml"
 LIMIT="server1"
 
 INGRESS_URL="https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.1.2/deploy/static/provider/cloud/deploy.yaml"
-MANIFEST="../k3s/app.yaml"
-KUBECONFIG="k3s_config"
+MANIFEST="k3s/app.yaml"
+KUBECONFIG="ansible/k3s_config"
 
 log() {
   echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1"
@@ -59,7 +59,7 @@ until kubectl get pods -n ingress-nginx --kubeconfig=${KUBECONFIG} 2>/dev/null |
   fi
 
 done
-log "Make sure nginx is running..." # Even though the pod is 'Running', its not accepting new ingresses yet.
+log "Make sure nginx is running..." # Even though the pod is 'Running', its not accepting new ingresses yet, so we give it a little more time.
 sleep 10
 
 # 4. Apply manifests.

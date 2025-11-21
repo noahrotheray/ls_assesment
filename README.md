@@ -18,7 +18,7 @@ Ansible for provisioning
 
 `ansible` - [Install Ansible](https://docs.ansible.com/projects/ansible/latest/installation_guide/installation_distros.html)
 
-## What you need to change
+## Prerequistis
 - Adjust the ssh user and auth according to your environment in `ansible/inventory/prod/group_vars/all.yml`. In this setup it is assumed both server and worker nodes share the same ssh user and keys, and that the user has root privileges on the host machine.
 - Set the **LAN IP** of k3s server/worker(s) in `ansible/inventory/prod/hosts.yml`. 
 
@@ -26,25 +26,25 @@ Ansible for provisioning
 
 - Provision k3s server
   ```
-  ansible-playbook -i inventory/prod site.yml --limit server1
+  ansible-playbook -i ansible/inventory/prod ansible/site.yml --limit server1
   ```
   _Note: Take note of the k3s_token, this is required for worker nodes._
   
 - install ingress-nginx
   ```
-  kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.1.2/deploy/static/provider/cloud/deploy.yaml
+  kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.1.2/deploy/static/provider/cloud/deploy.yaml --kubeconfig=ansible/k3s_config
   ```
-- Wait around 120s for nginx controller to come up.
+- Wait around 120s for nginx controller to come up. Otherwise you will receive this error `no endpoints available for service "ingress-nginx-controller-admission"`
 
 - Apply orchestration manifests
   ```
-  kubectl apply -f ../k3s/app.yaml
+  kubectl apply -f k3s/app.yaml --kubeconfig=ansible/k3s_config
+
   ```
 ### TLDR:
 
   ```
-  cd ansible
-  bash provision.sh
+  bash ansible/provision.sh
   ```
   WebApp should now be listening on: http://server_ip
 
@@ -54,6 +54,12 @@ Ansible for provisioning
  ```
  ansible-playbook -i inventory/prod site.yml --limit worker1
  ```
+- Scale `node-app` deployment
+  ```
+  kubectl scale deployment node-app --replicas 6 --kubeconfig=ansible/k3s_config
+  ```
+  New replicas should now provision on worker nodes.
+
  ### Cleanup:
  server - `sudo /usr/local/bin/k3s-uninstall.sh`
  
